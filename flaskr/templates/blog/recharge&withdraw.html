@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+<!-- <head><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script></head> -->
+{% block header %}
+  <h3 class="action" href="{{ url_for('blog.dashboard') }}">{% block title %}Recharge & Withdraw{% endblock %}</h3>
+  <a id="back" class="top-right" href="{{ url_for('blog.dashboard') }}">Back to Dashboard</a>
+  <style>
+    #back{
+      position:absolute;
+    }
+  </style>
+  {% if g.user %}
+    <!-- <a class="action" href="{{ url_for('blog.buy_stock') }}">New</a> -->
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  
+  <div class="search" style="padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 20px;">
+    <!-- post -> buycollect -->
+    <form method="post">
+        <label>Action:</label>
+        <select name="mnmanage" id="mnmanage" required style="width: 200px;">
+          <option value="">--Please choose an option--</option>
+          <option value="Recharge">Recharge</option>
+          <option value="Withdraw">Withdraw</option>
+        </select>
+        <!-- <script>
+          const dropdown = document.getElementById("option-select");
+          dropdown.addEventListener("change", (event) => {
+              const selectedOption = dropdown.value;
+              if (selectedOption === "Buy") {
+              // Perform some specific action for Option 1
+                  console.log("Option 1 selected");
+              } 
+              else if (selectedOption === "Sell") {
+              // Perform some specific action for Option 2
+                console.log("Option 2 selected");
+              }
+          });
+        </script> -->
+        <label>Amount:</label>
+        <input name="amount" id="amount" type="text" maxlength="10" required style="width: 200px;">
+        <!-- <label>Tracking Price:</label>
+        <input name="price" id="price" type="text" maxlength="10" required style="width: 200px;"> -->
+        <button id="submit" type="submit" class="btn btn-primary" style="width: 150px;">Submit</button>
+    </form>
+  </div>
+
+  
+
+  <article class="balance">
+    <h6 style="color:black; font-size: x-large;">Current Balance: </h6>
+
+    <h5 style="color:black; font-size: x-large;">$ {{ aBalance }}</h5>
+{% endblock %}

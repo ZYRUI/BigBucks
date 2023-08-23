@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+<!-- <head><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script></head> -->
+{% block header %}
+  <h3 class="action" href="{{ url_for('blog.adm_dashboard') }}">{% block title %}Dashboard{% endblock %}</h3>
+  {% if g.user %}
+    <!-- <a class="action" href="{{ url_for('blog.buy_stock') }}">New</a> -->
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+<ul class="menu">
+  <li><a href="{{url_for('blog.adm_history')}}">Users Stock Operation History</a></li>
+  <br>
+  <li><a href="{{url_for('blog.adm_holding')}}">Users Holding</a></li>
+  <br>
+  <li><a href="{{url_for('blog.adm_efficient_frontier')}}">Users Portfolio Analysis</a></li>
+</ul>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+<!-- <head><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script></head> -->
+{% block header %}
+  <h3 class="action" href="{{ url_for('blog.dashboard') }}">{% block title %}Stock Performance History{% endblock %}</h3>
+  <a id="back" class="top-right" href="{{ url_for('blog.dashboard') }}">Back to Dashboard</a>
+  <style>
+    #back{
+      position:absolute;
+    }
+  </style>
+  {% if g.user %}
+    <!-- <a class="action" href="{{ url_for('blog.buy_stock') }}">New</a> -->
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="search" style="padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 20px;">
+  <select name="stock-history" id="stock-history" required style="width: 200px;" onchange = "stock_info()">
+    <option value="">--Please choose an option--</option>
+    {% for s in symbols%}
+      <option value="{{s[0]}}">{{s[0]}}</option>
+    {% endfor %}
+  </select>
+</div>
+<script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+<div id='stock-chart'></div>
+<div class="table-container">
+  <table id="stock-table" class="table table-striped table-bordered" style="width:100%"></table>
+</div>
+
+<script src="{{ url_for('static', filename='stock_info.js') }}"></script>
+
+{% endblock %}

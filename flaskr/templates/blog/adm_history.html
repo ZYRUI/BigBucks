@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+<!-- <head><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script></head> -->
+{% block header %}
+  <h3 class="action" href="{{ url_for('blog.adm_dashboard') }}">{% block title %}User Operation History{% endblock %}</h3>
+  <a class="top-right" id="back" href="{{ url_for('blog.adm_dashboard') }}">Back to Dashboard</a>
+  <style>
+    #back{
+      position:absolute;
+    }
+  </style>
+  {% if g.user %}
+    <!-- <a class="action" href="{{ url_for('blog.buy_stock') }}">New</a> -->
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+<article class="stock">
+  <header>
+    
+    <table id="example" class="table table-striped table-bordered" style="width:100%">
+      <thead>
+          <tr>
+              <th>User Id</th>
+              <th>Stock</th>
+              <th>Time</th>
+              <th>Shares</th>
+              <th>Price</th>
+              <th>Worth</th>
+          </tr>
+      </thead>
+      {% for history in history_list %}
+      <tbody>
+          <tr>
+              <th>{{history['u_id']}}</th>
+              <th>{{ history['stockid'] }}</th>
+              <td>{{ history['created_time'] }}</td>
+              <td>{{ history['shares'] }}</td>
+              <td>{{ history['price'] }}</td>
+              <td>{{ history['worth'] }}</td>
+          </tr>
+      </tbody>
+      {% endfor %}
+    </table>
+    
+  </header>
+
+</article>
+
+{% endblock %}

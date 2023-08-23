@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+<!-- <head><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script></head> -->
+{% block header %}
+  <h3 class="action" href="{{ url_for('blog.dashboard') }}">{% block title %}Stock Charts{% endblock %}</h3>
+  <a id="back" class="top-right" href="{{ url_for('blog.dashboard') }}">Back to Dashboard</a>
+  <style>
+    #back{
+      position:absolute;
+    }
+  </style>
+  {% if g.user %}
+    <!-- <a class="action" href="{{ url_for('blog.buy_stock') }}">New</a> -->
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+<form method="post">
+  <div>
+      <label>Stock Symbol:</label>
+      <input type="text" name="stock_symbol" id="stock_symbol" required>
+  </div>
+  <div>
+      <label>Index Symbol:</label>
+      <input type="text" name="index_symbol" id="index_symbol" required>
+  </div>
+  <div>
+      <label>Start Date:</label>
+      <input type="text" id="start_date" name="start_date" required>
+  </div>
+  <div>
+      <label>End Date:</label>
+      <input type="text" id="end_date" name="end_date" required>
+  </div>
+  <div>
+      <button id="submit" type="submit" class="btn btn-primary" style="width: 150px;">Submit</button>
+  </div>
+</form>
+<script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script>
+  $(function() {
+      $( "#start_date" ).datepicker({
+          dateFormat: 'yy-mm-dd'
+      });
+      $( "#end_date" ).datepicker({
+          dateFormat: 'yy-mm-dd'
+      });
+  });
+</script>
+<br>
+<div>
+  {{ price_plot | safe }}
+</div>
+<div>
+  {{ rtn_sct | safe }}
+</div>
+<div>
+  {{ t_vs_y | safe }}
+</div>
+<div>
+  {{ histogram | safe }}
+</div>
+<div>
+  {{ relative_price_chart | safe }}
+</div>
+<div>
+  {{ stk_idx_rtn | safe }}
+</div>
+<div>
+  {{ stock_index_scatter | safe }}
+</div>
+<!-- <script src="{{ url_for('static', filename='stock_charts.js') }}"></script> -->
+
+{% endblock %}

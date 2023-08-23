@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Account Management{% endblock %}</h1>
+  <a class="top-right" id="back" href="{{ url_for('blog.adm_dashboard') }}">Back to Dashboard</a>
+{% endblock %}
+
+{% block content %}
+<div class="top-center-form">
+  <form method="post">  
+    <label for="username"> Current Username</label>
+    <th>{{ user['username'] }}</th>
+    <label> Change Username</label>
+    <input name="username" id="username" style="width:300px">
+    <label for="password">Change Password</label>
+    <input type="password" name="password" id="password" style="width:300px">
+    <input class="btn btn-primary" type="submit" value="Change">
+  </form>
+</div>
+{% endblock %}

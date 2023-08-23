@@ -1,0 +1,64 @@
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl7/1L_dstPt3HV5HzF6H7lP5PQf7z7w6JUqIOHJq6" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.2/css/dataTables.bootstrap5.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-EverWVkujI5ZIBkXCmOpXmtvkXjvRvz52yr20F5seXFNpDlwkczGGwE1q1zwGtpZ" crossorigin="anonymous"></script>
+  <script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.2/js/dataTables.bootstrap5.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/6.0.0/bootbox.min.js"></script>
+  <script src="https://cdn.rawgit.com/Keyang/node-csvtojson/d41f44aa/browser/csvtojson.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+
+</head>
+<title>Team K - BigBucks</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<nav>
+  <h1><a style="color: whitesmoke;" href="{{ url_for('blog.dashboard') }}">BigBucks</a></h1>
+  <ul>
+    {% if g.user %}
+      <li><a style="color: whitesmoke;" href="{{ url_for('auth.manage') }}">{{ g.user['username'] }}</a>
+      <li><a style="color: whitesmoke;" href="{{ url_for('auth.logout') }}">Log Out</a>
+    {% else %}
+      <li><a style="color: whitesmoke;" href="{{ url_for('auth.register') }}">Register</a>
+      <li><a style="color: whitesmoke;" href="{{ url_for('auth.login') }}">Log In</a>
+      <li><a style="color: whitesmoke;" href="{{url_for('auth.adm_login')}}">Administrator</a>
+    {% endif %}
+  </ul>
+</nav>
+
+{% block header %}
+  <h1 class="mb-3 text-center">{% block title %}Log In{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <div class="top-center-form">
+    <div class="login-card shadow overflow-hidden">
+    <form method="post">
+      <div class="form-group" style="text-align: center;">
+        <label for="username">Username</label>
+        <input name="username" id="username" required>
+      </div>
+      <div class="form-group" style="text-align: center;">
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" required>
+      </div>
+      <div style="text-align: center; margin-top: 20px;">
+        <br>
+        <input class="btn btn-primary" type="submit" value="Log In" style="text-align: center; border-radius: 30px;">
+        <p style="text-align: center; font-size: 14px;">Not registered? <a href="{{ url_for('auth.register') }}">Register</a></p>
+      </div>
+    </form>
+  </div>
+  </div>
+  <section class="content">
+
+    {% for message in get_flashed_messages() %}
+      <div class="flash">{{ message }}</div>
+    {% endfor %}
+  </section>
+{% endblock %}

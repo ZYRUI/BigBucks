@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+<!-- <head><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script></head> -->
+{% block header %}
+  <h3 class="action" href="{{ url_for('blog.buy_stock') }}">{% block title %}Stock Operation{% endblock %}</h3>
+  <a id="back" class="top-right" href="{{ url_for('blog.dashboard') }}">Back to Dashboard</a>
+  <style>
+    #back{
+      position:absolute;
+    }
+  </style>
+  {% if g.user %}
+    <!-- <a class="action" href="{{ url_for('blog.buy_stock') }}">New</a> -->
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+<script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+  <div class="search" style="padding-top: 10px; padding-bottom: 10px; padding-left: 20px; padding-right: 20px;">
+    <!-- post -> buycollect -->
+    <form method="post">
+        <label>Action:</label>
+        <select name="operation" id="operation" required style="width: 200px; height: 30px;">
+          <option value="">--Please choose an option--</option>
+          <option value="Buy">Buy</option>
+          <option value="Sell">Sell</option>
+        </select>
+        <label>Date:</label>
+        <input type="text" id="date" name="date" maxlength="10" required style="width: 200px; height: 30px;" required>
+        <script>
+          $(function() {
+              $( "#date" ).datepicker({
+                  dateFormat: 'yy-mm-dd'
+              });
+              
+          });
+        </script>
+
+        <label>Stock Symbol:</label>
+        <input class="form-control" name="symbol" id="symbol" type="text" maxlength="10" required style="width: 200px; height: 30px;">
+        <!-- <label>Tracking Price:</label>
+        <input name="price" id="price" type="text" maxlength="10" required style="width: 200px;"> -->
+        <label>Number of Shares:</label>
+        <input class="form-control" name="shares" id="shares" type="number" maxlength="10" min="1" step="1" required style="width: 200px; height: 30px;">
+        <button id="submit" type="submit" class="btn btn-primary" style="width: 150px;">Submit</button>
+    </form>
+  </div>
+
+  <article class="worth">
+    <label style="font-size: x-large;">Total Worth: $</label>
+    <a style="font-size: x-large;">{{total_worth}}</a>
+  </article>
+  <article class="operation_balance">
+    <label style="font-size: x-large;">Current Balance: $</label>
+
+    <a style="font-size: x-large;">{{ finalbalance }}</a>
+
+  </article>
+
+  <h2 style="color: rgb(11, 43, 104);" class="text-center mb-5">Your Portfolio</h2>
+  <div class="row">
+    <div class="col-md-10 mx-auto">
+      <header>
+
+        <table id="example" class="table table-striped table-bordered" style="width:100%">
+          <thead>
+              <tr>
+                  <th>Stock</th>
+                  <!-- <th>Time</th> -->
+                  <th>Shares</th>
+                  <th>Cost Price</th>
+                  <th>Current Price</th>
+                  <th>Percent Change</th>
+                  <th>Worth</th>
+              </tr>
+          </thead>
+            <tbody>
+              {% for holding in holdings %}
+                <tr>
+                    <td>{{ holding['stockid'] }}</td>
+                    <!-- <td>{{ holding['created_time'] }}</td> -->
+                    <td>{{ holding['shares'] }}</td>
+                    <td>{{ holding['price'] }}</td>
+                    <td>{{ holding['new_price'] }}</td>
+                    <td>{{"{:.2f}".format((holding['new_price']-holding['price'])/holding['price']*100) }}%</td>
+                    <td>{{ holding['worth'] }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+        </table>
+        
+      </header>
+    </div>
+  </div>
+{% endblock %}

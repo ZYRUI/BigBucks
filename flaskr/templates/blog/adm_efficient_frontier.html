@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+<!-- <head><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script></head> -->
+{% block header %}
+  <h3 class="action" href="{{ url_for('blog.dashboard') }}">{% block title %}User Portfolio Analysis{% endblock %}</h3>
+  <a class="top-right" id="back" href="{{ url_for('blog.adm_dashboard') }}">Back to Dashboard</a>
+  <style>
+    #back{
+      position:absolute;
+    }
+  </style>
+  {% if g.user %}
+    <!-- <a class="action" href="{{ url_for('blog.buy_stock') }}">New</a> -->
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-6">
+    <h5>Portfolio Pie Chart</h5>
+    <div>{{pie_plot|safe}}</div>
+  </div>
+  <div class="col-md-6">
+    <h5> Efficient Frontier</h5>
+    <div id="graph"></div>
+    <script>
+        var graphData = JSON.parse('{{ graphJSON|safe }}');
+        console.log(graphData);
+        Plotly.newPlot('graph', graphData.data, graphData.layout);
+    </script>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <h5>Sharp Ratio</h5>
+    <div id="sharp_ratio">{{sharp_ratio}}</div>
+  </div>
+</div>
+{% endblock %}
